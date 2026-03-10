@@ -1,0 +1,32 @@
+CREATE TABLE IF NOT EXISTS users (
+  id SERIAL PRIMARY KEY,
+  username VARCHAR(100) UNIQUE NOT NULL,
+  email VARCHAR(150) UNIQUE NOT NULL,
+  password TEXT NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS media (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255) NOT NULL,
+  type VARCHAR(20) CHECK (type IN ('anime','serie','filme')),
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS episodes (
+  id SERIAL PRIMARY KEY,
+  media_id INT REFERENCES media(id) ON DELETE CASCADE,
+  season INT,
+  episode_number INT,
+  title VARCHAR(255)
+);
+
+CREATE TABLE IF NOT EXISTS songs (
+  id SERIAL PRIMARY KEY,
+  title VARCHAR(255),
+  artist VARCHAR(255),
+  link TEXT,
+  media_id INT REFERENCES media(id) ON DELETE CASCADE,
+  episode_id INT REFERENCES episodes(id) ON DELETE CASCADE,
+  user_id INT REFERENCES users(id)
+);
