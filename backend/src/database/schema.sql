@@ -30,3 +30,8 @@ CREATE TABLE IF NOT EXISTS songs (
   episode_id INT REFERENCES episodes(id) ON DELETE CASCADE,
   user_id INT REFERENCES users(id)
 );
+
+ALTER TABLE songs
+ADD COLUMN user_id INT REFERENCES users(id);
+
+ALTER TABLE users ADD CONSTRAINT unique_email UNIQUE (email);

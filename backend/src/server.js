@@ -12,6 +12,7 @@ app.use(cors());
 app.use(express.json());
 
 app.use(authRoutes);
+app.use(songRoutes);
 
 async function initDB() {
   await pool.query(`

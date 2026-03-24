@@ -12,11 +12,14 @@ exports.getSongs = async (req, res, next) => {
 
 exports.createSong = async (req, res, next) => {
   try {
-    const data = songSchema.parse(req.body);
+    const { title, artist, source, link } = req.body;
+    const userId = req.userId;
+
+    
 
     const result = await pool.query(
-      "INSERT INTO songs (title, artist, source, link) VALUES ($1,$2,$3,$4) RETURNING *",
-      [data.title, data.artist, data.source, data.link]
+      `INSERT INTO songs (title, artist, source, link, user_id) VALUES ($1,$2,$3,$4,$5)`,
+      [title, artist, source, link, userId]
     );
 
     res.json(result.rows[0]);
